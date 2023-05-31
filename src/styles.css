@@ -1,0 +1,59 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.dropdown_pannel {
+  background-color: rgb(232, 223, 223);
+  width: 200px;
+  border-radius: 5px;
+  box-shadow: aqua;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+.dropdown_pannel .dropdown_li {
+  cursor: pointer;
+}
+.container {
+  border: 5px solid black;
+  height: 50%;
+  margin: 50px;
+}
+.video1{
+  display: flex;
+ max-width: 900px;
+ margin: auto;
+justify-content: space-between;
+}
+.block{
+  display: block;
+  width: 50%;
+  height: 300px;
+  overflow-y: auto;
+}
+.center{
+  text-align: center;
+  padding-bottom: 20px;
+  margin-top: 5px;
+}
+.flowcontain {
+  padding-bottom: 20px;
+  align-items: center;
+}
+.innercontain {
+  position: relative;
+}
+button {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+  width: 75px;
+  height: 40px;
+  margin-right:200px;
+}
+button:hover {background-color: #e7e7e7;}
+input {
+  height: 35px;
+  margin-right: 20px;
+}

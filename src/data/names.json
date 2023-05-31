@@ -1,0 +1,28 @@
+{
+  "key": "1",
+  "name": "Closed guide",
+  "children": [
+    {
+      "key": "1-1",
+      "name": "Posted",
+      "attributes": {
+        "department": "Production"
+      }
+      
+    },
+    {
+      "key": "1-2",
+      "name": "Posted",
+      "attributes": {
+        "department": "Marketing"
+      }
+    },
+    {
+      "key": "1-3",
+      "name": "Posted",
+      "attributes": {
+        "department": "Marketing"
+      }
+    }
+  ]
+}
