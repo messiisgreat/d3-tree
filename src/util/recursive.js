@@ -38,10 +38,21 @@ export const addNode = (_key, currentTree, _name, _attributes = { "department": 
         }
     }
 }
-
+export const getFirstTree = (_key, currentTree) => {
+    if (_key.indexOf(currentTree['key']) == 0) {
+        console.log(_key,currentTree['key'], currentTree);
+        if (_key === currentTree['key']) {
+            console.log(currentTree);
+            return currentTree;
+        } else {
+           return currentTree.children.filter((node) => getFirstTree(_key, node)).map((node) => getFirstTree(_key, node))
+        }
+    }else {
+        return false
+    }
+}
 export const getTree = (_key, currentTree) => {
     if (_key.indexOf(currentTree['key']) == 0) {
-        console.log(currentTree['key'], _key);
         if (_key === currentTree['key']) {
             return {
                 key: currentTree['key'],
@@ -49,7 +60,6 @@ export const getTree = (_key, currentTree) => {
                 attributes: currentTree['attributes']
             }
         } else {
-            console.log(currentTree.children.length)
             return {
                 key: currentTree['key'],
                 name: currentTree['name'],

@@ -3,7 +3,7 @@ import Tree from "react-d3-tree";
 import orgChartJsonss from "./data/names.json";
 import { useCenteredTree } from "./helpers";
 import "./styles.css";
-import { addColor, addNode, getPath, getTree } from "./util/recursive";
+import { addColor, addNode, getFirstTree, getPath, getTree } from "./util/recursive";
 import VideoPlayerList from "./VideoPlayerList";
 const containerStyles = {
   width: "100vw",
@@ -17,7 +17,7 @@ const renderRectSvgNode = ({ nodeDatum, onClickHandle2 }) => {
   return (
   <g>
     <circle r="10"  onContextMenu={() => onClickHandle2(nodeDatum)} style={{ fill: `${nodeDatum.color??'blue'}` }}/>
-    <text fill="black" id="txt" strokeWidth="1" x="20">
+    <text fill="black" id="txt" strokeWidth="1" x="20" y = "-10">
       {nodeDatum.name}
     </text>
     {/* {nodeDatum.attributes?.department && (
@@ -46,8 +46,9 @@ export default function App() {
   const [displaying, setDisplaying] = useState(false);
   const [visible, setVisible]  = useState(false);
   const [startKey, setStartKey] = useState();
+  const [startValue, setStartValue] = useState({});
   const [endKey, setEndKey] = useState();
-  const [selectorgChart, setSelectorgChart] = useState({});
+  const [selectorgChart, setSelectorgChart] = useState({});//show path value
   const handleClick2 = (nodeDatum) => {
     setVisible(true);
     setId(nodeDatum.key);
@@ -61,17 +62,19 @@ export default function App() {
     
   }
   const start = () => {
-    // setStartKey(id);
+    setStartKey(id);
+    const firstOrgChat = getFirstTree(id, orgChartJson)[0];
+    setStartValue(firstOrgChat);
     // checkFunc();
     // const updatedOrgChartJson = addColor(id, orgChartJson)
     // setOrgChartJson(updatedOrgChartJson)
   }
   const end = () => {
-    // setEndKey(id)
+    setEndKey(id)
     // const path = getPath(orgChartJson, startKey, id)
     // checkFunc();
     setDisplaying(true)
-    const updateSelectOrgChart = getTree(id, orgChartJson);
+    const updateSelectOrgChart = getTree(id, startValue);
     console.log(updateSelectOrgChart)
     setSelectorgChart(updateSelectOrgChart);
   }
@@ -88,12 +91,14 @@ export default function App() {
   useEffect(() => {
     const contextHandler = (event) => {
       event.preventDefault();
-      const x = event.clientX;
-      const y = event.clientY;
+      const x = event.clientX-55;
+      const y = event.clientY-55;
       setX(x);
       setY(y);
+      console.log(x,y,"mouses")
     }
     document.addEventListener('contextmenu', contextHandler);
+    
     return () => {
       document.removeEventListener('contextmenu', contextHandler);
     }
@@ -106,7 +111,7 @@ export default function App() {
       
 
       {visible && 
-        <div style={{position: "absolute", top: y - 20, left: x -20, paddingLeft: 20, paddingTop: 20}} onMouseLeave={onMouseLeaveHandle}>
+        <div style={{position: "absolute", top: y, left: x}} onMouseLeave={onMouseLeaveHandle} onClick={onMouseLeaveHandle}>
           <div className="dropdown_pannel">
             <div className="dropdown_li" onClick={insert}>insert</div>
             <div className="dropdown_li" onClick={start}>start</div>
