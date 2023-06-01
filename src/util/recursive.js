@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid"
-
 export const addNode = (_key, currentTree, _name, _attributes = { "department": "Production" }) => {
     if (currentTree.children && currentTree.children.length && currentTree.children.length > 0) {
         if (_key === currentTree['key']) {

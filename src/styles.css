@@ -17,11 +17,6 @@
 .dropdown_pannel .dropdown_li {
   cursor: pointer;
 }
-.container {
-  border: 5px solid black;
-  height: 45%;
-  margin: 50px;
-}
 .video1{
   display: flex;
  max-width: 900px;

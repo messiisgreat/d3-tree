@@ -6,7 +6,7 @@ import "./styles.css";
 import { addColor, addNode, getFirstTree, getPath, getTree } from "./util/recursive";
 import VideoPlayerList from "./VideoPlayerList";
 const containerStyles = {
-  width: "100vw",
+  width: "100%",
   height: "50vh"
 };
 
@@ -20,11 +20,6 @@ const renderRectSvgNode = ({ nodeDatum, onClickHandle2 }) => {
     <text fill="black" id="txt" strokeWidth="1" x="20" y = "-10">
       {nodeDatum.name}
     </text>
-    {/* {nodeDatum.attributes?.department && (
-      <text fill="black" x="20" dy="20" strokeWidth="1">
-        Department: {nodeDatum.attributes?.department}
-      </text>
-    )} */}
   </g>
 )};
 
@@ -63,16 +58,15 @@ export default function App() {
   }
   const start = () => {
     setStartKey(id);
-    const firstOrgChat = getFirstTree(id, orgChartJson)[0];
+    let firstOrgChat = {}
+    if(id!='1')
+     firstOrgChat = getFirstTree(id, orgChartJson)[0];
+    else
+      firstOrgChat = orgChartJson;  
     setStartValue(firstOrgChat);
-    // checkFunc();
-    // const updatedOrgChartJson = addColor(id, orgChartJson)
-    // setOrgChartJson(updatedOrgChartJson)
   }
   const end = () => {
     setEndKey(id)
-    // const path = getPath(orgChartJson, startKey, id)
-    // checkFunc();
     setDisplaying(true)
     const updateSelectOrgChart = getTree(id, startValue);
     console.log(updateSelectOrgChart)
@@ -91,44 +85,37 @@ export default function App() {
   useEffect(() => {
     const contextHandler = (event) => {
       event.preventDefault();
-      const x = event.clientX-55;
-      const y = event.clientY-55;
+      const x = event.clientX-20;
+      const y = event.clientY-20;
       setX(x);
       setY(y);
       console.log(x,y,"mouses")
     }
     document.addEventListener('contextmenu', contextHandler);
-    
     return () => {
       document.removeEventListener('contextmenu', contextHandler);
     }
   }, [setX, setY, document]);
   return (
-    <div>
-      <div className="container">
-      <div className="innercontain" style={containerStyles} ref={containerRef}>
-      <TreeView orgChartJson={orgChartJson} translate={translate} handleClick2={handleClick2} orientation = "vertical" />
-      
-
-      {visible && 
-        <div style={{position: "absolute", top: y, left: x}} onMouseLeave={onMouseLeaveHandle} onClick={onMouseLeaveHandle}>
-          <div className="dropdown_pannel">
-            <div className="dropdown_li" onClick={insert}>insert</div>
-            <div className="dropdown_li" onClick={start}>start</div>
-            <div className="dropdown_li" onClick={end}>end</div>
+    <div className="flex flex-col">
+      <div className="rounded-lg border-gray-500 border-4 mx-8 mt-3">
+        <div className="innercontain" style={containerStyles} ref={containerRef}>
+        <TreeView orgChartJson={orgChartJson} translate={translate} handleClick2={handleClick2} orientation = "vertical" />
+        {visible && 
+          <div style={{position: "absolute", top: y, left: x}} onMouseLeave={onMouseLeaveHandle} onClick={onMouseLeaveHandle}>
+            <div className="dropdown_pannel">
+              <div className="dropdown_li" onClick={insert}>insert</div>
+              <div className="dropdown_li" onClick={start}>start</div>
+              <div className="dropdown_li" onClick={end}>end</div>
+            </div>
           </div>
+        }
         </div>
-      }
+      </div>
+      <div className = "flex">
+        {displaying && <TreeView orgChartJson={selectorgChart} translate={{ x: 50, y: 50 }} orientation="horizontal"/>}
+      </div>
+      <VideoPlayerList/>  
     </div>
-    </div>
-    <div className = "flowcontain">
-    {displaying && <TreeView orgChartJson={selectorgChart} translate={translate} orientation="horizontal"/>}
-    </div >
-    
-      <VideoPlayerList/>
-    </div>
-    
-    
-    
   );
 }
